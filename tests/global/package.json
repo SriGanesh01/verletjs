@@ -11,6 +11,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "verletjs": "^0.0.1"
+    "verletjs": "^0.0.2"
   }
 }

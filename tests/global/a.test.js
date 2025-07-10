@@ -1,3 +1,3 @@
-import {testSum} from "verletjs"
+import {testPow} from "verletjs"
 
-console.log(testSum(1,2))
+console.log(testPow(1,2))
