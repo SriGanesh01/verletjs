@@ -1,0 +1,36 @@
+name: ConvertToJsFromTs
+
+on:
+  push:
+    branches: [prod]
+
+jobs:
+  CodeToDist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: |
+            cd verletjs
+            npm ci
+
+      - name: Compile TypeScript
+        run: |
+            cd verletjs
+            npx tsc
+
+      - name: Publish To npm
+        run: |
+            cd verletjs
+            npm publish
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_SEC }}
