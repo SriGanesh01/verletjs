@@ -1,0 +1,28 @@
+name: Create GitHub Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Read version from release-version.txt
+        id: get_version
+        run: |
+          VERSION=$(cat release/release-version.txt)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.get_version.outputs.VERSION }}"
+          name: "Release v${{ steps.get_version.outputs.VERSION }}"
+          body_path: release/CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
