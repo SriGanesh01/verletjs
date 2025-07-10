@@ -14,3 +14,8 @@ export function testPowSum (a: number, b: number) : number
 {
     return ((a**a) + (b**b))
 }
+
+export function IHHI (a: number, b: number) : number
+{
+    return ((a**a) + (b**b))
+}
