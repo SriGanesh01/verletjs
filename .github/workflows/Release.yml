@@ -1,28 +1,29 @@
-name: Create GitHub Release
+name: Merge Prod to Main on Release
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published]
 
 jobs:
-  release:
+  merge-prod-to-main:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout the repository
         uses: actions/checkout@v4
-
-      - name: Read version from release-version.txt
-        id: get_version
-        run: |
-          VERSION=$(cat release/release-version.txt)
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
         with:
-          tag_name: "v${{ steps.get_version.outputs.VERSION }}"
-          name: "Release v${{ steps.get_version.outputs.VERSION }}"
-          body_path: release/CHANGELOG.md
+          fetch-depth: 0  # Important for merge
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Merge prod into main
+        run: |
+          git checkout main
+          git pull origin main
+          git merge origin/prod --no-ff -m "Auto-merge from prod to main on release"
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
