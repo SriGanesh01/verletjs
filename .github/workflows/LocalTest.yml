@@ -2,7 +2,7 @@ name: ConvertToJsFromTs
 
 on:
   push:
-    branches: [test]
+    branches: [prod]
 
 jobs:
   CodeToDist:
@@ -16,6 +16,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: |
@@ -27,13 +28,7 @@ jobs:
             cd verletjs
             npx tsc
 
-      - name: Compile TypeScript
-        run: |
-            cd verletjs
-            npx tsc
-
-      - name: Upload dist as artifact
-        uses: actions/upload-artifact@v4
-        with:
-            name: dist
-            path: verletjs/dist
+      - name: Publish To npm
+        run: npm publish
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_SEC }}
