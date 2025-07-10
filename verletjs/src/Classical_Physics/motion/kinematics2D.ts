@@ -1,8 +1,6 @@
 
 
-export type Scalar2D = {
-    speed: number;
-}
+export type Scalar2D = number;
 
 export type Direction2D = "north" | "south" | "east" | "west" | "north-east" | "north-west" | "south-east" | "south-west";
 
@@ -11,9 +9,8 @@ export type Vector2D = {
     direction: Direction2D;
 }
 
-export type Distance2D = {
-    distance: number;
-}
+export type Distance2D = number
+
 
 export type Displacement2D = {
     distance: number;
@@ -34,9 +31,7 @@ export const inverse: Record<Direction2D, Direction2D> = {
 // Speed = distance/time (d/t)
 export function speed2D(distance:Distance2D, timeTaken:number): Scalar2D {
     if (timeTaken === 0) throw new Error("Time taken must be non-zero.");
-    return {
-        speed:(distance.distance/timeTaken)
-    } //* in m/s
+    return (distance/timeTaken); //* in m/s
 }
 
 // Velocity = displacement/time (s/t)
