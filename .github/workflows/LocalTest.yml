@@ -18,9 +18,11 @@ jobs:
           node-version: '20.x'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+            cd verletjs
+            npm ci
 
       - name: Compile TypeScript
         run: |
-          cd verletjs
-          npx tsc
+            cd verletjs
+            npx tsc
