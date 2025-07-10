@@ -26,3 +26,15 @@ jobs:
         run: |
             cd verletjs
             npx tsc
+
+      - name: List contents after build
+        run: |
+            cd verletjs
+            ls -al
+            ls -al dist || echo "No dist directory found"
+
+      - name: Upload dist as artifact
+        uses: actions/upload-artifact@v4
+        with:
+            name: dist
+            path: verletjs/dist
