@@ -1,5 +1,3 @@
 
 
-export * from "./simple.js";
-export * from "./placeholder/advanced.js"
-export * from "./placeholder/more.js"
+export * from "./Classical_Physics/motion/kinematics2D.js"
