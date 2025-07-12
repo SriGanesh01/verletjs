@@ -1,3 +1,3 @@
-import {testSum, testMul} from "verletjs"
+import {changeInVelocity} from "verletjs"
 
-console.log(testMul(5,2))
+console.log(changeInVelocity({initialvelocity}))

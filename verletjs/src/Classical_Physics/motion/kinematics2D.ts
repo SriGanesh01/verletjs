@@ -2,7 +2,7 @@
 
 export type Scalar2D = number;
 
-export type Direction2D = "north" | "south" | "east" | "west" | "north-east" | "north-west" | "south-east" | "south-west";
+export type Direction2D = [number, number];
 
 export type Vector2D = {
     speed: number;
@@ -17,15 +17,11 @@ export type Displacement2D = {
     direction: Direction2D;
 }
 
-export const inverse: Record<Direction2D, Direction2D> = {
-    "north": "south",
-    "south": "north",
-    "east": "west",
-    "west": "east",
-    "north-east": "south-west",
-    "south-west": "north-east",
-    "north-west": "south-east",
-    "south-east": "north-west"
+export function inverse(x:Direction2D):Direction2D {
+    return [
+        -x[0],
+        -x[1]
+    ]
 }
 
 // Speed = distance/time (d/t)
@@ -35,7 +31,7 @@ export function speed2D(distance:Distance2D, timeTaken:number): Scalar2D {
 }
 
 // Velocity = displacement/time (s/t)
-export function velocity2D(displacement:Displacement2D, timeTaken:number): Vector2D {
+export function velocity2D(displacement:Displacement2D, timeTaken:number): Vector2D { // look for overload
     if (timeTaken === 0) throw new Error("Time taken must be non-zero.");
     return {
         speed:(displacement.distance/timeTaken),
@@ -46,20 +42,25 @@ export function velocity2D(displacement:Displacement2D, timeTaken:number): Vecto
 // Acceleration - Rate of change in velocity
 
 export function reverseDirection(direction: Direction2D): Direction2D {
-    return inverse[direction]
+    return inverse(direction)
 }
 
 export function changeInVelocity(initialVelocity: Vector2D, finalVelocity: Vector2D): Vector2D {
     let direction: Direction2D = initialVelocity.direction;
+    let bigger: number = initialVelocity.speed;
     if (initialVelocity.direction === reverseDirection(finalVelocity.direction))
     {
         if (initialVelocity.speed >= finalVelocity.speed)
         {
             direction = initialVelocity.direction;
+            bigger = initialVelocity.speed;
         }
         else {
             direction = finalVelocity.direction;
+            bigger = finalVelocity.speed;
         }
+        direction[0] = direction[0]/bigger
+        direction[1] = direction[1]/bigger
     }
     // Add logic if they are not opposite directions. like north and west.
     // Potentially change how vectors work, like a matrix/list instead of strings

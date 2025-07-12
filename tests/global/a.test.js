@@ -1,3 +1,3 @@
-import {testPow} from "verletjs"
+import {speed2D} from "verletjs"
 
-console.log(testPow(1,2))
+console.log(speed2D({distance:6},2))
