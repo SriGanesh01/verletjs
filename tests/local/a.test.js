@@ -1,3 +1,3 @@
-import {changeInVelocity} from "verletjs"
+import {changeInVelocity, kite1} from "verletjs"
 
-console.log(changeInVelocity({initialvelocity}))
+console.log(kite1(1,2))
