@@ -17,10 +17,6 @@ export type Displacement2D = {
     direction: Direction2D;
 }
 
-export function kite1(a:Number,b:Number) : Number {
-    return (a);
-}
-
 export function inverse(x:Direction2D):Direction2D {
     return [
         -x[0],

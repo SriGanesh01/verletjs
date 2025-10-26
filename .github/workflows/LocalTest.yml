@@ -1,57 +1,32 @@
-# This name will show up in the GitHub Actions tab
-name: Placeholder Workflow
+name: ConvertToJsFromTs
 
-# This action will trigger on any push, but you can change or remove this
 on:
   push:
-    branches:
-      - "prod" # Change this to "prod" or your default branch
+    branches: [prod]
 
 jobs:
-  # This is the single job that will run
-  do-nothing:
-    # Use the simplest available runner
+  CodeToDist:
     runs-on: ubuntu-latest
 
     steps:
-      # This step just prints a message to the log
-      - name: This workflow does nothing
-        run: echo "This is a placeholder and has completed successfully."
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: "https://registry.npmjs.org"
 
-# name: ConvertToJsFromTs
+      - name: Install dependencies
+        run: |
+            cd verletjs
+            npm ci
 
-# on:
-#   push:
-#     branches: [prod]
-
-# jobs:
-#   CodeToDist:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout Code
-#         uses: actions/checkout@v4
-
-#       - name: Set up Node.js
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: '20.x'
-#           registry-url: "https://registry.npmjs.org"
-
-#       - name: Install dependencies
-#         run: |
-#             cd verletjs
-#             npm ci
-
-#       - name: Compile TypeScript
-#         run: |
-#             cd verletjs
-#             npx tsc
-
-#       - name: Publish To npm
-#         run: |
-#             cd verletjs
-#             npm publish
-#         env:
-#             NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_SEC }}
+      - name: Compile and Publish
+        run: |
+            cd verletjs
+            npx tsc
+            npm publish
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN_SEC }}
