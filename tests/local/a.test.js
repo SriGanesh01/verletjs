@@ -1,3 +1,3 @@
-import {changeInVelocity, kite1} from "verletjs"
+import * as verletjs from "verletjs";
 
-console.log(kite1(1,2))
+console.log(verletjs.h)
