@@ -71,3 +71,5 @@ export function changeInVelocity(initialVelocity: Vector2D, finalVelocity: Vecto
 }
 
 // Reasses the total implementation
+
+// TODO : Add ways to function with abilityy to do calculations by ignoring friction or Air-Resistance...
